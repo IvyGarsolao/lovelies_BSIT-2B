@@ -99,6 +99,15 @@ body.dark-mode .main-sidebar .nav-link:hover {
         <p>User Accounts</p>
       </a>
     </li>
+
+    <li class="nav-item">
+    <a href="<?= base_url('grades') ?>" class="nav-link">
+        <i class="nav-icon fas fa-clipboard-check"></i>
+        <p>Grades</p>
+    </a>
+</li>
+
+
   </ul>
 </nav>
 </div>
