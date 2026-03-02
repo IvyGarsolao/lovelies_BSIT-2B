@@ -50,3 +50,30 @@ $(document).ready(function () {
     });
 });
 
+$(document).on('click', '.deleteUserBtn', function () {
+    const userId = $(this).data('id');
+    const csrfName = $('meta[name="csrf-name"]').attr('content');
+    const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+    if (confirm('Are you sure you want to delete this user?')) {
+        $.ajax({
+            url: baseUrl + 'client/delete/' + userId,
+            method: 'POST', 
+            data: {
+                _method: 'DELETE',
+                [csrfName]: csrfToken
+            },
+            success: function (response) {
+                if (response.success) {
+                    showToast('success', 'Users deleted successfully.');
+                    setTimeout(() => location.reload(), 1000);
+                } else {
+                    alert(response.message || 'Failed to delete.');
+                }
+            },
+            error: function () {
+                alert('Something went wrong while deleting.');
+            }
+        });
+    }
+});
