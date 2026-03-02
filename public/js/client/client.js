@@ -1,3 +1,27 @@
+$('#addUserForm').on('submit', function (e) {
+    e.preventDefault();
+    $.ajax({
+        url: baseUrl + 'client/save',
+        method: 'POST',
+        data: $(this).serialize(),
+        dataType: 'json',
+        success: function (response) {
+            if (response.status === 'success') {
+                $('#AddNewModal').modal('hide');
+                $('#addUserForm')[0].reset();
+                showToast('success', 'client added successfully!');
+                setTimeout(() => {
+                    location.reload();
+                }, 1000); 
+            } else {
+                showToast('error', response.message || 'Failed to add user.');
+            }
+        },
+        error: function () {
+            showToast('error', 'An error occurred.');
+        }
+    });
+});
 
 
 $(document).on('click', '.edit-btn', function () {

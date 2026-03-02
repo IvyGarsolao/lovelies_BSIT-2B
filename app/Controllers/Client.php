@@ -1,3 +1,32 @@
+class Client extends Controller
+{
+    public function index(){
+        $model = new ClientModel();
+        $data['client'] = $model->findAll();
+        return view('client/index', $data);
+    }
+
+    public function save(){
+        $name = $this->request->getPost('name');
+        $email = $this->request->getPost('email');
+        $address = $this->request->getPost('address');
+
+        $userModel = new \App\Models\ClientModel();
+        $logModel = new LogModel();
+
+        $data = [
+            'name'       => $name,
+            'email'       => $email,
+            'address'    => $address
+        ];
+
+        if ($userModel->insert($data)) {
+            $logModel->addLog('New client has been added: ' . $name, 'ADD');
+            return $this->response->setJSON(['status' => 'success']);
+        } else {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Failed to save client']);
+        }
+    }
 
     public function update(){
         $model = new ClientModel();
