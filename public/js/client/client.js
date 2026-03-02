@@ -1,3 +1,13 @@
+
+function showToast(type, message) {
+    if (type === 'success') {
+        toastr.success(message, 'Success');
+    } else {
+        toastr.error(message, 'Error');
+    }
+}
+
+
 $('#addUserForm').on('submit', function (e) {
     e.preventDefault();
     $.ajax({
@@ -100,4 +110,48 @@ $(document).on('click', '.deleteUserBtn', function () {
             }
         });
     }
+});
+
+
+$(document).ready(function () {
+    const $table = $('#example1');
+
+    const csrfName = 'csrf_test_name'; 
+    const csrfToken = $('input[name="' + csrfName + '"]').val();
+
+    $table.DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: baseUrl + 'client/fetchRecords',
+            type: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            }
+        },
+        columns: [
+        { data: 'row_number' },
+        { data: 'id', visible: false },
+        { data: 'name' },
+        { data: 'email' },
+        { data: 'address' },
+        {
+            data: null,
+            orderable: false,
+            searchable: false,
+            render: function (data, type, row) {
+                return `
+                <button class="btn btn-sm btn-warning edit-btn" data-id="${row.id}">
+                <i class="far fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-danger deleteUserBtn" data-id="${row.id}">
+                <i class="fas fa-trash-alt"></i>
+                </button>
+                `;
+            }
+        }
+        ],
+        responsive: true,
+        autoWidth: false
+    });
 });

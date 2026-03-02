@@ -100,6 +100,13 @@ body.dark-mode .main-sidebar .nav-link:hover {
       </a>
     </li>
 
+    <li class="nav-item">
+      <a href="<?= base_url('client') ?>" class="nav-link <?= is_active(1, 'client') ?>">
+        <i class="nav-icon fas fa-users"></i>
+        <p>Client</p>
+      </a>
+    </li>
+
   </ul>
 </nav>
 </div>
